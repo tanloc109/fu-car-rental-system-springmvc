@@ -1,12 +1,13 @@
 package hsf301.fe.edu.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,22 +25,22 @@ import com.fucar.service.ICustomerService;
 @RequestMapping("/customers")
 public class CustomerController {
 
-
     private ICustomerService customerService;
+    
     private ICarRentalService carRentalService;
-
+    
     public CustomerController() {
-        customerService = new CustomerService();
-        carRentalService = new CarRentalService();
-    }
+		this.customerService = new CustomerService();
+		this.carRentalService = new CarRentalService();
+	}
 
     @RequestMapping("/add")
-    public ModelAndView add(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView add() {
         return new ModelAndView("addCustomer");
     }
 
-    @RequestMapping(value="/edit", method = RequestMethod.POST)
-    public ModelAndView edit(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public ModelAndView edit(HttpServletRequest request) {
         String action = request.getParameter("action");
         String customerID = request.getParameter("customerID");
         if ("Edit".equals(action)) {
@@ -59,18 +60,9 @@ public class CustomerController {
         }
         return new ModelAndView("redirect:/admin/customers");
     }
-    
-    @RequestMapping(value="/edit2", method = RequestMethod.POST)
-    public ModelAndView edit2(HttpServletRequest request, HttpServletResponse response) {
-        String action = request.getParameter("action");
-        String customerID = request.getParameter("customerID");
-        Customer customer = customerService.findById(Integer.parseInt(customerID));
-        request.setAttribute("customer", customer);
-        return new ModelAndView("editCustomer");
-    }
 
-    @RequestMapping(value="/update", method = RequestMethod.POST)
-    public ModelAndView update(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ModelAndView update(HttpServletRequest request) {
         int customerID = Integer.parseInt(request.getParameter("customerID"));
         String customerName = request.getParameter("customerName");
         String mobile = request.getParameter("mobile");
@@ -81,13 +73,15 @@ public class CustomerController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date birthday = null;
-        Date licenceDate = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate birthday = null;
+        LocalDate licenceDate = null;
         try {
-            birthday = sdf.parse(birthdayStr);
-            licenceDate = sdf.parse(licenceDateStr);
+            birthday = LocalDate.parse(birthdayStr, formatter);
+            licenceDate = LocalDate.parse(licenceDateStr, formatter);
         } catch (Exception e) {
+            e.printStackTrace();
+            // Handle exception properly (e.g., logging)
         }
 
         Customer customer = customerService.findById(customerID);
@@ -109,8 +103,8 @@ public class CustomerController {
         return new ModelAndView("customer");
     }
 
-    @RequestMapping(value="/back", method = RequestMethod.POST)
-    public ModelAndView back(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/back", method = RequestMethod.GET)
+    public ModelAndView back(HttpServletRequest request) {
         int customerID = Integer.parseInt(request.getParameter("customerID"));
         Customer customer = customerService.findById(customerID);
         request.setAttribute("info", customer);
@@ -119,11 +113,11 @@ public class CustomerController {
         return new ModelAndView("customer");
     }
 
-    private String formatDate(Date date) {
+    private String formatDate(LocalDate date) {
         if (date == null) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(formatter);
     }
 }

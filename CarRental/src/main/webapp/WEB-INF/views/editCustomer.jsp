@@ -65,7 +65,7 @@
         border-color: #0056b3;
     }
     .vad {
-    width: 100%
+        width: 100%
     }
 </style>
 </head>

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -7,10 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Customer Management</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-	integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -81,67 +77,68 @@
     .action-buttons input[type="submit"][value="Delete"]:hover {
         background-color: #c82333;
     }
-    .head{
-	    display: flex;
-	    justify-content: space-between;
-	    margin: -24px 0;
+    .head {
+        display: flex;
+        justify-content: space-between;
+        margin: -24px 0;
     }
 </style>
 </head>
 <body>
-	<h1>Customer Management</h1>
-	<div class="head">
-	<form action="/FUCarRentingSystemMVC/admin/back">
-		<button type="submit" value="Back">Back</button>
-	</form>
-	<form action="/FUCarRentingSystemMVC/customers/add">
-		<button type="submit">Add New Customer</button>
-	</form>
-</div>
-	<c:if test="${not empty customers}">
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Mobile</th>
-					<th>Email</th>
-					<th>Birthdate</th>
-					<th>Identity Card</th>
-					<th>Licence Number</th>
-					<th>Licence Date</th>
-					<th>Password</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="customer" items="${customers}" varStatus="status">
-					<tr>
-						<form action="/FUCarRentingSystemMVC/customers/edit" method="POST">
-							<td>${customer.customerID}</td>
-							<input type="hidden" name="customerID" value="${customer.customerID}" />
-							<td>${customer.customerName}</td>
-							<td>${customer.mobile}</td>
-							<td>${customer.email}</td>
-							<td><fmt:formatDate value="${customer.birthday}" pattern="yyyy-MM-dd"/></td>
-							<td>${customer.identityCard}</td>
-							<td>${customer.licenceNumber}</td>
-							<td><fmt:formatDate value="${customer.licenceDate}" pattern="yyyy-MM-dd"/></td>
-							<td>${customer.password}</td>
-							<td class="action-buttons">
-								<input type="submit" name="action" value="Edit"></input>
-								<input type="submit" name="action" value="Delete"></input>
-							</td>
-						</form>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</c:if>
-
-	<c:if test="${empty customers}">
-		<p>No customer found in the system.</p>
-	</c:if>
-
+    <h1>Customer Management</h1>
+    <div class="head">
+        <form action="/FUCarRentingSystemMVC/admin/back">
+            <button type="submit" value="Back">Back</button>
+        </form>
+        <form action="/FUCarRentingSystemMVC/customers/add">
+            <button type="submit">Add New Customer</button>
+        </form>
+    </div>
+    <c:if test="${not empty customers}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Birthdate</th>
+                    <th>Identity Card</th>
+                    <th>Licence Number</th>
+                    <th>Licence Date</th>
+                    <th>Password</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="customer" items="${customers}">
+                    <tr>
+                        <td>${customer.customerID}</td>
+                        <td>${customer.customerName}</td>
+                        <td>${customer.mobile}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.birthday}</td>
+                        <td>${customer.identityCard}</td>
+                        <td>${customer.licenceNumber}</td>
+                        <td>${customer.licenceDate}</td>
+                        <td>${customer.password}</td>
+                        <td class="action-buttons">
+                            <form action="/FUCarRentingSystemMVC/customers/edit" method="post" style="display:inline;">
+                                <input type="hidden" name="customerID" value="${customer.customerID}" />
+                                <input type="submit" name="action" value="Edit" />
+                            </form>
+                            <form action="/FUCarRentingSystemMVC/customers/edit" method="post" style="display:inline;">
+                                <input type="hidden" name="customerID" value="${customer.customerID}" />
+                                <input type="submit" name="action" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+    <c:if test="${empty customers}">
+        <p>No customer found in the system.</p>
+    </c:if>
 </body>
 </html>

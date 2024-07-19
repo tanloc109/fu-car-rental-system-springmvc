@@ -1,9 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta charset="UTF-8">
@@ -87,31 +84,27 @@
 </style>
 </head>
 <body>
-    
-     <form action="/FUCarRentingSystemMVC/logout" class="logout-btn">
+    <form action="/FUCarRentingSystemMVC/logout" class="logout-btn">
         <button type="submit" class="button logout">Logout</button>
     </form>
     <div class="info-container">
-	   
-	    
         <h1>Customer Information</h1>
-         <form action="/FUCarRentingSystemMVC/customers/edit2" method="POST" class="edit-btn">
-	        <input type="hidden" name="customerID" value="${info.customerID}" />
-	        <button type="submit" class="button">Edit</button>
-	    </form>
+        <form action="/FUCarRentingSystemMVC/customers/edit2" method="POST" class="edit-btn">
+            <input type="hidden" name="customerID" value="${info.customerID}" />
+            <button type="submit" class="button">Edit</button>
+        </form>
         <p><strong>ID:</strong> ${info.customerID}</p>
         <p><strong>Name:</strong> ${info.customerName}</p>
         <p><strong>Mobile:</strong> ${info.mobile}</p>
-        <p><strong>Birthday:</strong> <fmt:formatDate value="${info.birthday}" pattern="dd/MM/yyyy"/></p>
+        <p><strong>Birthday:</strong> ${info.birthday}</p>
         <p><strong>Identity Card:</strong> ${info.identityCard}</p>
         <p><strong>Licence Number:</strong> ${info.licenceNumber}</p>
-        <p><strong>Licence Date:</strong> <fmt:formatDate value="${info.licenceDate}" pattern="dd/MM/yyyy"/></p>
+        <p><strong>Licence Date:</strong> ${info.licenceDate}</p>
         <p><strong>Email:</strong> ${info.email}</p>
         <p><strong>Account:</strong> ${info.account.accountName}</p>
         <p><strong>Password:</strong> ${info.password}</p>
-        
     </div>
-    
+
     <c:if test="${not empty historyRental}">
         <table>
             <thead>
